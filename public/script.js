@@ -1,50 +1,29 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const todoForm = document.getElementById("todoForm");
-    const todoList = document.getElementById("todoList");
-  
-    function loadTodos() {
-      fetch("/todos")
-        .then(res => res.json())
-        .then(data => {
-          todoList.innerHTML = '';
-          data.forEach(todo => {
-            const li = document.createElement("li");
-            li.textContent = `${todo.name} [${todo.priority}] - Fun: ${todo.isFun} - Complete: ${todo.isComplete}`;
-            const delBtn = document.createElement("button");
-            delBtn.textContent = "Delete";
-            delBtn.style.marginLeft = "10px";
-            delBtn.style.backgroundColor = "red";
-            delBtn.style.color = "white";
-            delBtn.onclick = () => deleteTodo(todo.id);
-            li.appendChild(delBtn);
-            todoList.appendChild(li);
-          });
-        });
-    }
-  
-    function deleteTodo(id) {
-      fetch(`/todos/${id}`, { method: 'DELETE' })
-        .then(() => loadTodos());
-    }
-  
-    todoForm.onsubmit = (e) => {
-      e.preventDefault();
-      const newTodo = {
-        name: document.getElementById("name").value,
-        priority: document.getElementById("priority").value,
-        isComplete: false,
-        isFun: document.getElementById("isFun").checked
-      };
-  
-      fetch("/todos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newTodo)
-      }).then(() => {
-        todoForm.reset();
-        loadTodos();
-      });
-    };
-  
-    loadTodos();
+ument.getElementById('displayTodos').addEventListener('click', async () => {
+  const response = await fetch('/todos');
+  const todos = await response.json();
+  document.getElementById('todoDisplay').textContent = JSON.stringify(todos, null, 2);
+});
+
+document.getElementById('submitTodo').addEventListener('click', async () => {
+  const name = document.getElementById('todoName').value;
+  const priority = document.getElementById('todoPriority').value || 'low';
+  const isFun = document.getElementById('todoIsFun').value || 'true';
+
+  const todo = { name, priority, isFun };
+
+  const response = await fetch('/todos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(todo)
   });
+
+  const result = await response.json();
+  alert(`Todo added: ${JSON.stringify(result)}`);
+});
+
+document.getElementById('deleteTodo').addEventListener('click', async () => {
+  const id = document.getElementById('todoIdToDelete').value;
+  const response = await fetch(`/todos/${id}`, { method: 'DELETE' });
+  const result = await response.json();
+  alert(result.message);
+});

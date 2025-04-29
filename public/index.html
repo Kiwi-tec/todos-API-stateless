@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,33 +8,45 @@
 </head>
 <body>
   <div class="container">
+    <div class="header block">
+      <h1>Todo App</h1>
+      <p>Manage your tasks efficiently</p>
+    </div>
+    
     <!-- Display Todos Button -->
     <div class="block">
       <button id="displayTodos">Display All Todos</button>
     </div>
-
+    
     <!-- Add Todo Form -->
     <div class="block">
+      <h2>Add New Todo</h2>
       <input type="text" id="todoName" placeholder="Todo name" required>
-      <input type="text" id="todoPriority" placeholder="Priority (default: low)">
-      <input type="text" id="todoIsFun" placeholder="Is Fun? (default: true)">
+      <select id="todoPriority">
+        <option value="low">Low Priority</option>
+        <option value="medium">Medium Priority</option>
+        <option value="high">High Priority</option>
+      </select>
+      <select id="todoIsFun">
+        <option value="true">Fun</option>
+        <option value="false">Not Fun</option>
+      </select>
       <button id="submitTodo">Submit Todo</button>
     </div>
-
+    
     <!-- Delete Todo Form -->
     <div class="block">
+      <h2>Delete Todo</h2>
       <input type="number" id="todoIdToDelete" placeholder="Enter ID to delete">
       <button id="deleteTodo">Delete Todo</button>
     </div>
-
+    
     <!-- display items -->
-    <div class="block">
-      <pre id="todoDisplay"></pre>
+    <div class="block todo-list">
+      <h2>Todo List</h2>
+      <div id="todoDisplay"></div>
     </div>
   </div>
-
-
-
   <script src="script.js"></script>
 </body>
 </html>
